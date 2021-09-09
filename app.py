@@ -11,7 +11,7 @@ app = dash.Dash(__name__, suppress_callback_exceptions=True)
 
 server = app.server
 
-app.title = 'Malaysia Covid-19 Tracker'
+app.title = 'Malaysia Covid-19 Interactive Dashboard'
 
 #Overwrite your CSS setting by including style locally
 colors = {
@@ -322,7 +322,7 @@ def get_daily_doses(vax_data):
 
 #dash layout
 app.layout = html.Div([
-    html.H1("Malaysia Covid-19 Tracker", style={'text-align': 'center'}),
+    html.H1("Malaysia Covid-19 Interactive Dashboard", style={'text-align': 'center'}),
     html.Div([
         html.Div([
             dcc.Dropdown(
