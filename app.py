@@ -323,6 +323,7 @@ def get_daily_doses(vax_data):
 #dash layout
 app.layout = html.Div([
     html.H1("Malaysia Covid-19 Interactive Dashboard", style={'text-align': 'center'}),
+    ## Dropdown menus
     html.Div([
         html.Div([
             dcc.Dropdown(
@@ -494,12 +495,33 @@ app.layout = html.Div([
         # className='twelve columns'
     ),
 
-    html.Div(id='big-number',children=[], className='row'),
-
     html.Br(),
 
-    html.Div(id='graphs',children=[]),
+    ## covid cases graphs
+    html.Div([
+        html.Div([
+            html.Div(
+                [
+                    dcc.Graph(  
+                        id='covid-cases',
+                        figure={}
+                    ),
+                ],
+                className='six columns'
+            ),
+            html.Div(
+                [
+                    dcc.Graph(
+                        id='covid-deaths',
+                        figure={}
+                    ),
+                ],
+                className='six columns'
+            ),
+        ])
+    ]),
 
+    ## vaccine graphs
     html.Div([
         html.H4(
             children='Covid-19 Vaccine Progress',
@@ -545,38 +567,6 @@ def show_hide_element(value):
         return {'display':'block', 'color': '#212121'}
     if value == 'Malaysia':
         return {'display': 'none'}
-
-
-@app.callback(
-    Output('graphs','children'),
-    [Input('malaysia', 'value')],
-    [State('graphs','children')]
-    
-)
-def get_layout(slctd_options,children):
-    graphs = html.Div(
-        children=[
-            html.Div(
-                [
-                    dcc.Graph(  
-                        id='covid-cases',
-                        figure={}
-                    ),
-                ],
-                className='six columns'
-            ),
-            html.Div(
-                [
-                    dcc.Graph(
-                        id='covid-deaths',
-                        figure={}
-                    ),
-                ],
-                className='six columns'
-            ),
-        ]
-    )
-    return graphs
 
 @app.callback(
     [Output('total-cases','children'),
