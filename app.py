@@ -7,12 +7,7 @@ from dash.dependencies import Input, Output, State, MATCH
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-external_scripts = [{
-    'type': 'text/javascript', #depends on your application
-    'src': 'insert your addthis.com js here',
-}]
-
-app = dash.Dash(__name__, suppress_callback_exceptions=True, external_scripts = external_scripts)
+app = dash.Dash(__name__, suppress_callback_exceptions=True)
 
 server = app.server
 
@@ -65,7 +60,6 @@ df_malaysia_population = pd.read_csv('https://raw.githubusercontent.com/CITF-Mal
 state_list = df_state_cases['state'].value_counts().index
 
 #data pre-processing
-
 ## malaysia cases
 malaysia_cases = df_malaysia_cases.copy()
 malaysia_deaths = df_malaysia_deaths.copy()
@@ -339,23 +333,28 @@ app.layout = html.Div([
                 ],
                 value = 'Malaysia',
                 clearable=False,
+                style={
+                    'color': '#212121',
+                } 
                 
             ),
-        ], style={'paddingBottom':'15px'}),
-
+        ],
+        className='six columns',
+        ),
         html.Div([
             dcc.Dropdown(
                 id = 'state',
                 options=[{'label': i, 'value': i} for i in state_list],
                 value='Kedah',
-                clearable=False
+                clearable=False,
             ),
-        ], style={}),
-
+        ],
+        className='six columns',
+        ),
         html.Br()
     ]),
 
-
+    html.Br(),
 
     # Top column display of confirmed, death and recovered total numbers
     html.Div([
@@ -523,15 +522,6 @@ app.layout = html.Div([
         ),
         html.Br(),
         html.Div([
-            # html.H4(
-            #     children='Daily Doses',
-            #     style={
-            #         'textAlign': 'center',
-            #         'color': colors['text'],
-            #         # 'backgroundColor': colors['background'],
-            #     },
-            #     className='twelve columns'
-            # ),
             html.Div([
                 dcc.Graph(
                     id='vaccine-line'
@@ -552,7 +542,7 @@ app.layout = html.Div([
    [Input(component_id='malaysia', component_property='value')])
 def show_hide_element(value):
     if value == 'State':
-        return {'display':'block'}
+        return {'display':'block', 'color': '#212121'}
     if value == 'Malaysia':
         return {'display': 'none'}
 
